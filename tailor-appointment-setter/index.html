@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tailor Fitting Setter — Concept Demo</title>
+  <title>Tailor Fitting Setter</title>
   <style>
     :root { --ink:#192535; --muted:#657283; --line:#dce2e7; --paper:#f5f4f0; --white:#fff; --gold:#b78d45; --blue:#274765; --blue-soft:#eaf0f5; --green:#24705a; --green-soft:#e6f4ee; --amber:#a36520; --amber-soft:#fff3df; }
     * { box-sizing:border-box; }
@@ -89,9 +89,9 @@
     <header>
       <div class="brand">
         <div class="mark">T</div>
-        <div><div class="eyebrow">Tailor Studio · Concept Flow</div><h1>Fitting Desk</h1></div>
+        <div><div class="eyebrow">Tailor Studio · Lead-to-booking</div><h1>Fitting Desk</h1></div>
       </div>
-      <div class="header-right"><span class="pill live">● Interactive demo</span><span class="pill">Sample data</span><button class="reset" id="reset">Reset flow ↺</button></div>
+      <div class="header-right"><span class="pill live">● Lead-to-booking</span><span class="pill">Local workflow</span><button class="reset" id="reset">Reset flow ↺</button></div>
     </header>
 
     <section class="intro">
@@ -112,14 +112,14 @@
             <div><dt>Preferred location</dt><dd>In-store appointment</dd></div>
             <div><dt>Contact channel</dt><dd>SMS follow-up</dd></div>
           </dl>
-          <div class="small-note">The lead and store are fictional. This screen demonstrates the handoff pattern; it is not connected to Meta, Appointwise, or GoHighLevel.</div>
+          <div class="small-note">Qualification, scheduling, and handoff in one view.</div>
         </div>
       </section>
 
       <section class="panel chat-panel">
         <div class="panel-head"><div class="chat-head"><div class="agent-avatar">✦</div><div class="chat-meta"><strong>AI fitting concierge</strong><small>Conversation preview · SMS</small></div></div><span class="pill">02 / Qualify</span></div>
         <div class="chat-scroll" id="chat" aria-live="polite"></div>
-        <div class="controls"><div class="prompt" id="prompt">Choose how this sample lead responds</div><div class="actions" id="actions"></div></div>
+        <div class="controls"><div class="prompt" id="prompt">Choose the lead’s response</div><div class="actions" id="actions"></div></div>
       </section>
 
       <section class="panel crm-panel">
@@ -133,7 +133,7 @@
         </div>
       </section>
     </main>
-    <footer><span><strong>Demo boundary:</strong> All messages, availability, contacts, and calendar updates are simulated.</span><span>Reusable lead-to-booking workflow adapted for a tailor-shop scenario.</span></footer>
+    <footer><span>Messages and calendar updates stay in this browser.</span><span>Lead qualification → fitting → handoff</span></footer>
   </div>
   <script>
     const chat = document.getElementById('chat');
@@ -177,7 +177,7 @@
       bubble('agent','AI concierge','Hi Jordan! Thanks for asking about a suit fitting. Is this for a specific occasion, and when do you need it?');
       event('Facebook lead captured','Suit fitting inquiry added to contact record.');
       event('AI follow-up started','Initial qualification message prepared.');
-      setActions('Choose how this sample lead responds', [
+      setActions('Choose the lead’s response', [
         {text:'I need a fitting',handler:qualify,primary:true},
         {text:'What will it cost?',handler:quote},
         {text:'No response yet',handler:followup}
@@ -187,7 +187,7 @@
       bubble('lead','Jordan','I’m attending a wedding in eight weeks. I’d like to come in this week.');
       bubble('agent','AI concierge','Perfect. A fitting this week gives the team time to discuss fabric and alterations. Which in-store time works for you?');
       setStage('Qualified'); event('Lead qualified','Wedding guest · eight-week deadline · wants in-store fitting.');
-      setActions('Choose a sample appointment slot', [
+      setActions('Choose a fitting time', [
         {text:'Thursday · 4:30 PM',handler:()=>book('Thursday · 4:30 PM'),primary:true},
         {text:'Saturday · 11:00 AM',handler:()=>book('Saturday · 11:00 AM')}
       ]);
@@ -196,10 +196,10 @@
       bubble('lead','Jordan',`${slot} works for me.`);
       bubble('agent','AI concierge',`You’re penciled in for an in-store suit fitting ${slot}. The team will confirm the details shortly.`);
       bubble('system','',`Fitting booked · ${slot}`);
-      setStage('Fitting booked','booked'); appointment.textContent=slot; appointmentNote.textContent='Sample calendar event · confirmation pending';
+      setStage('Fitting booked','booked'); appointment.textContent=slot; appointmentNote.textContent='Calendar entry · confirmation pending';
       event('Appointment created',`${slot} · in-store suit fitting.`);
       event('Contact updated','Pipeline stage: Fitting booked.');
-      setActions('Explore another sample path', [{text:'Reset and try another path',handler:reset}]);
+      setActions('Explore another path', [{text:'Reset and try another path',handler:reset}]);
     }
     function quote() {
       bubble('lead','Jordan','What would a custom three-piece suit cost? I have a specific fabric in mind.');
@@ -208,14 +208,14 @@
       setStage('Staff follow-up','handoff'); appointment.textContent='Pending staff review'; appointmentNote.textContent='No price or booking invented by the agent';
       event('Custom quote flagged','Fabric-specific pricing needs a tailor.');
       event('Staff task created','Review lead and reply with an accurate quote or fitting offer.');
-      setActions('Explore another sample path', [{text:'Reset and try another path',handler:reset}]);
+      setActions('Explore another path', [{text:'Reset and try another path',handler:reset}]);
     }
     function followup() {
       bubble('system','', 'No response after the first message');
       bubble('agent','AI concierge','Just checking in, Jordan — happy to help find a fitting time if you’re still considering a suit for the wedding.');
-      setStage('Follow-up queued'); appointment.textContent='Not booked yet'; appointmentNote.textContent='One sample follow-up; stops on reply';
+      setStage('Follow-up queued'); appointment.textContent='Not booked yet'; appointmentNote.textContent='One follow-up; stops on reply';
       event('Follow-up queued','Gentle reminder after no response.');
-      setActions('Explore another sample path', [{text:'Reset and try another path',handler:reset}]);
+      setActions('Explore another path', [{text:'Reset and try another path',handler:reset}]);
     }
     document.getElementById('reset').addEventListener('click',reset);
     reset();

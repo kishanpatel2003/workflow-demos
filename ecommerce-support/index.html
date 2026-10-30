@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ecommerce AI pilot — sample workflow</title>
+  <title>Ecommerce Support</title>
   <style>
     :root{--accent:#0f766e;--dark:#142827;--ink:#223333;--muted:#647775;--line:#dbe5e2;--bg:#f5f8f7;--panel:#fff;--warn:#a45716;--good:#0f766e}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px}button,input,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #87c9be;outline-offset:2px}
@@ -18,34 +18,34 @@
 </head>
 <body>
   <div class="shell">
-    <aside class="side" aria-label="Demo navigation">
-      <div class="brand"><div class="mark">AG</div><div><strong>Arden Goods</strong><small>Ecommerce pilot</small></div></div>
-      <div class="side-label">Customer experience</div><button class="nav active" type="button">Inquiry review</button><button class="nav" type="button" id="catalogNav">Sample catalog</button>
-      <div class="side-foot"><strong>Marina · Store operations</strong>Illustrative workflow for evaluating AI solutions</div>
+    <aside class="side" aria-label="Navigation">
+      <div class="brand"><div class="mark">AG</div><div><strong>Arden Goods</strong><small>Customer support</small></div></div>
+      <div class="side-label">Customer experience</div><button class="nav active" type="button">Inquiry review</button><button class="nav" type="button" id="catalogNav">Catalog</button>
+      <div class="side-foot"><strong>Marina · Store operations</strong>Inquiry review and response approval</div>
     </aside>
     <div>
-      <header class="top"><div class="crumb">Arden Goods <span aria-hidden="true">›</span> <strong>Inquiry review</strong></div><div class="top-right"><span>Sep 25, 2026</span><span class="sample">SAMPLE DATA</span></div></header>
+      <header class="top"><div class="crumb">Arden Goods <span aria-hidden="true">›</span> <strong>Inquiry review</strong></div><div class="top-right"><span>Sep 25, 2026</span></div></header>
       <main>
-        <div class="eyebrow">AI tools evaluation / customer experience</div>
+        <div class="eyebrow">Customer experience</div>
         <div class="page-title"><div><h1>Review suggested replies</h1><p>Answer routine shopping questions with source checks; keep edge cases with a person.</p></div></div>
-        <section class="kpis" id="kpis" aria-label="Pilot metrics"></section>
+        <section class="kpis" id="kpis" aria-label="Inbox metrics"></section>
         <div class="work">
           <section class="card" aria-label="Customer inquiries">
             <div class="card-head"><h2>Customer inquiries</h2><span class="count" id="resultCount"></span></div>
             <div class="filters" id="filters"></div>
             <label for="search" class="label" style="display:block;margin:12px 17px 7px">Find an inquiry</label><input id="search" class="search" type="search" placeholder="Search customer or question" autocomplete="off">
             <div id="list" class="list"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>
-            <form class="add" id="addForm"><h3>Try a new sample inquiry</h3><div class="add-grid"><input id="customerName" aria-label="Customer name" placeholder="Customer name"><input id="question" aria-label="Customer question" placeholder="e.g. Can I return a gift?" /></div><div class="error" id="formError" role="alert"></div><button class="primary" type="submit">Generate sample reply</button></form>
+            <form class="add" id="addForm"><h3>Add an inquiry</h3><div class="add-grid"><input id="customerName" aria-label="Customer name" placeholder="Customer name"><input id="question" aria-label="Customer question" placeholder="e.g. Can I return a gift?" /></div><div class="error" id="formError" role="alert"></div><button class="primary" type="submit">Generate reply</button></form>
           </section>
           <div>
             <section class="card detail" id="detail" aria-live="polite"></section>
-            <section class="card flow"><h3>Where a real integration would connect</h3><div class="flow-steps"><span class="flow-step">Storefront / support inbox</span><span class="arrow">→</span><span class="flow-step">Catalog + inventory</span><span class="arrow">→</span><span class="flow-step">Policy check</span><span class="arrow">→</span><span class="flow-step">Human review</span></div><p>The pilot uses local sample data. A production version would connect the client’s actual ecommerce systems after discovery, with permissions, freshness checks, and response evaluation.</p></section>
+            <section class="card flow"><h3>Review flow</h3><div class="flow-steps"><span class="flow-step">Storefront / support inbox</span><span class="arrow">→</span><span class="flow-step">Catalog + inventory</span><span class="arrow">→</span><span class="flow-step">Policy check</span><span class="arrow">→</span><span class="flow-step">Human review</span></div><p>Check product details, inventory, and policy before approving a response. Route order-specific questions to a person.</p></section>
           </div>
         </div>
       </main>
     </div>
   </div>
-  <div class="bottom">Illustrative MVP · synthetic customers and catalog · simulated draft logic · no live ecommerce or AI connection</div>
+  <div class="bottom">Runs locally with example data · no outbound messages</div>
   <div class="toast" id="toast" role="status"></div>
   <script>
     const catalog=[
@@ -68,26 +68,26 @@
     const labels={review:'Ready for review',human:'Needs human',approved:'Approved'};
     function classify(q){let t=q.toLowerCase();if(/damag|broken|refund|order|tracking|complain/.test(t))return 'human';if(/walnut|catchall/.test(t))return 'human';return 'review'}
     function answer(item){let q=item.message.toLowerCase();
-      if(/damag|broken|refund|order|tracking|complain/.test(q))return {text:'I’m sorry this needs a closer look. I can pass this to a store specialist to check the order details and the right next step. I won’t guess at your order status or promise a refund before a person reviews it.',sources:['Order system: not connected','Human review required'],warning:'Order-level facts are unavailable in this sample. Keep this with a person.'};
-      if(/walnut|catchall/.test(q))return {text:'The Walnut Catchall Tray is listed at $39 in this sample catalog. Stock is low, so I would confirm availability before promising a shipping date.',sources:['Sample catalog · $39','Sample inventory · 2 units'],warning:'Low stock: human confirmation before sending.'};
-      if(/return/.test(q))return {text:'Our sample policy allows returns within 30 days when the item is unused and in its original condition. If this is a gift, a store specialist can confirm the exact steps for your purchase.',sources:['Sample return policy · 30 days'],warning:null};
-      if(/ship|delivery/.test(q))return {text:'Sample standard delivery is 3–5 business days after dispatch. A store specialist can confirm timing for your address and the items in your cart.',sources:['Sample shipping policy · 3–5 business days'],warning:null};
-      if(/gift|apartment|under|desk/.test(q))return {text:'For that budget, I would start with the Linen Desk Set at $47. It includes a soft notebook cover and pen tray, and the sample catalog shows 14 available. Would you like a more decorative option instead?',sources:['Sample catalog · Linen Desk Set','Sample inventory · 14 units'],warning:null};
-      return {text:'Thanks for reaching out. I can help narrow down options if you share what the item is for, your budget, and when you need it. A store specialist can take over for anything specific to an order.',sources:['Sample product catalog'],warning:null};
+      if(/damag|broken|refund|order|tracking|complain/.test(q))return {text:'I’m sorry this needs a closer look. I can pass this to a store specialist to check the order details and the right next step. I won’t guess at your order status or promise a refund before a person reviews it.',sources:['Order system: not connected','Human review required'],warning:'Order-level facts are unavailable. Keep this with a person.'};
+      if(/walnut|catchall/.test(q))return {text:'The Walnut Catchall Tray is listed at $39 in the catalog. Stock is low, so I would confirm availability before promising a shipping date.',sources:['Catalog · $39','Inventory · 2 units'],warning:'Low stock: human confirmation before sending.'};
+      if(/return/.test(q))return {text:'Our return policy allows returns within 30 days when the item is unused and in its original condition. If this is a gift, a store specialist can confirm the exact steps for your purchase.',sources:['Return policy · 30 days'],warning:null};
+      if(/ship|delivery/.test(q))return {text:'Standard delivery is 3–5 business days after dispatch. A store specialist can confirm timing for your address and the items in your cart.',sources:['Shipping policy · 3–5 business days'],warning:null};
+      if(/gift|apartment|under|desk/.test(q))return {text:'For that budget, I would start with the Linen Desk Set at $47. It includes a soft notebook cover and pen tray, and the catalog shows 14 available. Would you like a more decorative option instead?',sources:['Catalog · Linen Desk Set','Inventory · 14 units'],warning:null};
+      return {text:'Thanks for reaching out. I can help narrow down options if you share what the item is for, your budget, and when you need it. A store specialist can take over for anything specific to an order.',sources:['Product catalog'],warning:null};
     }
     function toast(s){let el=document.getElementById('toast');el.textContent=s;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),2600)}
     function filtered(){return state.items.filter(x=>(state.filter==='all'||x.status===state.filter)&&(`${x.name} ${x.message}`.toLowerCase().includes(state.query)))}
     function render(){let counts={all:state.items.length,review:0,human:0,approved:0};state.items.forEach(x=>counts[x.status]++);
-      document.getElementById('kpis').innerHTML=[['Inquiries',counts.all,'Sample inbox'],['Ready for review',counts.review,'Drafts need approval'],['Needs human',counts.human,'Exceptions held back'],['Approved',counts.approved,'In this sample session']].map(([a,b,c])=>`<div class="kpi"><small>${a}</small><strong>${b}</strong><span>${c}</span></div>`).join('');
+      document.getElementById('kpis').innerHTML=[['Inquiries',counts.all,'Inbox'],['Ready for review',counts.review,'Drafts need approval'],['Needs human',counts.human,'Exceptions held back'],['Approved',counts.approved,'This session']].map(([a,b,c])=>`<div class="kpi"><small>${a}</small><strong>${b}</strong><span>${c}</span></div>`).join('');
       document.getElementById('filters').innerHTML=[['all','All'],['review','Review'],['human','Needs human'],['approved','Approved']].map(([key,label])=>`<button class="filter ${state.filter===key?'active':''}" data-filter="${key}" aria-pressed="${state.filter===key}" type="button">${label} · ${counts[key]}</button>`).join('');
-      let rows=filtered();document.getElementById('resultCount').textContent=`${rows.length} shown`;document.getElementById('list').innerHTML=rows.length?rows.map(x=>`<button type="button" class="row ${state.selected===x.id?'active':''}" data-id="${x.id}"><span class="row-top"><span class="row-name">${esc(x.name)}</span><span class="row-time">${esc(x.time)}</span></span><span class="row-msg">${esc(x.message)}</span><span class="pill ${x.status}">${labels[x.status]}</span></button>`).join(''):'<div class="empty">No inquiries match this view. Try another filter or add a sample question below.</div>';
+      let rows=filtered();document.getElementById('resultCount').textContent=`${rows.length} shown`;document.getElementById('list').innerHTML=rows.length?rows.map(x=>`<button type="button" class="row ${state.selected===x.id?'active':''}" data-id="${x.id}"><span class="row-top"><span class="row-name">${esc(x.name)}</span><span class="row-time">${esc(x.time)}</span></span><span class="row-msg">${esc(x.message)}</span><span class="pill ${x.status}">${labels[x.status]}</span></button>`).join(''):'<div class="empty">No inquiries match this view. Try another filter or add a question below.</div>';
       let item=state.items.find(x=>x.id===state.selected);let d=document.getElementById('detail');if(!item){d.innerHTML='<p class="empty">Choose an inquiry to inspect its draft.</p>';return}let a=answer(item);
-      d.innerHTML=`<div class="detail-top"><div><div class="eyebrow">Suggested response · ${esc(item.channel)}</div><h2>${esc(item.name)}</h2><div class="detail-sub">${labels[item.status]} · received ${esc(item.time)}</div></div><span class="pill ${item.status}">${labels[item.status]}</span></div><div class="divider"></div><div class="label">Customer asked</div><div class="quote">${esc(item.message)}</div><div class="divider"></div><div class="draft"><div class="draft-head"><strong>Simulated assistant draft</strong><span class="badge">Grounded in sample sources</span></div>${esc(a.text)}<div class="source-list">${a.sources.map(s=>`<span class="source">${esc(s)}</span>`).join('')}</div></div>${a.warning?`<div class="notice">${esc(a.warning)}</div>`:''}<div class="decision"><button class="primary" type="button" data-action="approve">Approve sample reply</button><button class="secondary" type="button" data-action="human">Keep with human</button></div>`;
+      d.innerHTML=`<div class="detail-top"><div><div class="eyebrow">Suggested response · ${esc(item.channel)}</div><h2>${esc(item.name)}</h2><div class="detail-sub">${labels[item.status]} · received ${esc(item.time)}</div></div><span class="pill ${item.status}">${labels[item.status]}</span></div><div class="divider"></div><div class="label">Customer asked</div><div class="quote">${esc(item.message)}</div><div class="divider"></div><div class="draft"><div class="draft-head"><strong>Suggested reply</strong><span class="badge">Source references</span></div>${esc(a.text)}<div class="source-list">${a.sources.map(s=>`<span class="source">${esc(s)}</span>`).join('')}</div></div>${a.warning?`<div class="notice">${esc(a.warning)}</div>`:''}<div class="decision"><button class="primary" type="button" data-action="approve">Approve reply</button><button class="secondary" type="button" data-action="human">Keep with human</button></div>`;
     }
-    document.addEventListener('click',e=>{let f=e.target.closest('[data-filter]');if(f){state.filter=f.dataset.filter;render();return}let row=e.target.closest('[data-id]');if(row){state.selected=Number(row.dataset.id);render();return}let action=e.target.closest('[data-action]');if(action){let item=state.items.find(x=>x.id===state.selected);item.status=action.dataset.action==='approve'?'approved':'human';render();toast(item.status==='approved'?'Marked approved in this sample only.':'Held for human review in this sample.')}});
+    document.addEventListener('click',e=>{let f=e.target.closest('[data-filter]');if(f){state.filter=f.dataset.filter;render();return}let row=e.target.closest('[data-id]');if(row){state.selected=Number(row.dataset.id);render();return}let action=e.target.closest('[data-action]');if(action){let item=state.items.find(x=>x.id===state.selected);item.status=action.dataset.action==='approve'?'approved':'human';render();toast(item.status==='approved'?'Reply approved.':'Held for human review.')}});
     document.getElementById('search').addEventListener('input',e=>{state.query=e.target.value.toLowerCase();render()});
-    document.getElementById('addForm').addEventListener('submit',e=>{e.preventDefault();let name=document.getElementById('customerName').value.trim(),message=document.getElementById('question').value.trim(),err=document.getElementById('formError');if(name.length<2||message.length<8){err.textContent='Add a customer name and a question of at least eight characters.';return}err.textContent='';let id=Math.max(...state.items.map(x=>x.id))+1;state.items.unshift({id,name,channel:'Sample input',time:'now',message,status:classify(message)});state.selected=id;state.filter='all';state.query='';document.getElementById('search').value='';e.target.reset();render();toast('Sample draft generated. Review before sending.')});
-    document.getElementById('catalogNav').addEventListener('click',()=>toast(catalog.map(x=>`${x.name}: $${x.price}, ${x.stock} in sample stock`).join(' · ')));
+    document.getElementById('addForm').addEventListener('submit',e=>{e.preventDefault();let name=document.getElementById('customerName').value.trim(),message=document.getElementById('question').value.trim(),err=document.getElementById('formError');if(name.length<2||message.length<8){err.textContent='Add a customer name and a question of at least eight characters.';return}err.textContent='';let id=Math.max(...state.items.map(x=>x.id))+1;state.items.unshift({id,name,channel:'Manual input',time:'now',message,status:classify(message)});state.selected=id;state.filter='all';state.query='';document.getElementById('search').value='';e.target.reset();render();toast('Reply drafted. Review before approving.')});
+    document.getElementById('catalogNav').addEventListener('click',()=>toast(catalog.map(x=>`${x.name}: $${x.price}, ${x.stock} in stock`).join(' · ')));
     document.addEventListener('keydown',e=>{if(e.key==='Escape')document.getElementById('formError').textContent=''});
     setTimeout(render,350);
   </script>
